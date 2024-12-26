@@ -1,0 +1,4 @@
+source_currency,target_currency,fee
+USD,EUR,0.02
+USD,GBP,0.03
+EUR,USD,0.01

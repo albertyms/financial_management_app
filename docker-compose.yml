@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - MAIL_SERVER=smtp
+      - MAIL_PORT=1025
+    depends_on:
+      - db
+      - smtp
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: financial_management
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123456789
+    ports:
+      - "3306:3306"
+
+  smtp:
+    image: mailhog/mailhog
+    container_name: smtp
+    ports:
+      - "1025:1025"  # MailHog SMTP port
+      - "8025:8025"  # MailHog Web interface for viewing mails
+    networks:
+      - finservice_network
+    restart: always
+
+networks:
+  finservice_network:
+    driver: bridge
